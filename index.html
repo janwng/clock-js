@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="clock">
+    <div class="controls">
+      <label for="clockbg">
+        Click me to change the <span>color</span>
+        <br>
+        <br>
+        <input id="clockbg" type="color" name="clockbg" value="#00bfff">
+      </label>
+    </div>
+
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
+    </div>
+  </div>
+
+  <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+    const hand = document.querySelector('.hand');
+
+    function setDate() {
+      const now = new Date();
+
+      const seconds = now.getSeconds();
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+      const minutes = now.getMinutes();
+      const minutesDegrees = ((minutes / 60) * 360) + 90;
+      minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+
+      const hours = now.getHours();
+      const twelveHours = hours - 12;
+      const hoursDegrees = ((360/12) * twelveHours) + 90;
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+    }
+
+    setInterval(setDate, 1000);
+
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      document.documentElement.style.setProperty(`--${this.name}`, this.value);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
+
+  </script>
+</body>
+</html>
